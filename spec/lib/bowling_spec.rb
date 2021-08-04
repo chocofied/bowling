@@ -10,7 +10,7 @@ describe "Bowling score total" do
                     @game.add_score(0)
                 end
         
-                expect (@game.total_scor). to eq 0
+                expect(@game.total_score).to eq 0
             end
         end
         
