@@ -9,6 +9,7 @@ describe "Bowling score total" do
         context "All tosses were gutter balls" do
             it "Score should be 0" do
                 add_many_scores(20,0)
+                @game.calc_score
                 expect(@game.total_score).to eq 0
             end
         end
@@ -16,6 +17,7 @@ describe "Bowling score total" do
         context "All tosses knocked over 1 pin" do
             it "Score should be 20" do
                 add_many_scores(20,1)
+                @game.calc_score
                 expect(@game.total_score).to eq 20
             end
         end
