@@ -29,13 +29,7 @@ class Bowling
         @scores.each.with_index(1) do |score, index|
             #If a strike that's not the last frame, then add bonus
             if strike?(score) && not_last_frame?(index)
-                #Next frame is a strike and not last frame, then
-                #the frame after that's first toss is added as a bonus
-                if strike?(@scores[index]) && not_last_frame?(index + 1)
-                    @total_score += 20 + @scores[index + 1].first
-                else
-                    @total_score += 10 + @scores[index].inject(:+)
-                end
+                @total_score += calc_strike_bonus(index)
             #If a spare that's not the last frame, then add bonus
             elsif spare?(score) && not_last_frame?(index)
                 @total_score += calc_spare_bonus(index)
@@ -61,6 +55,16 @@ class Bowling
         index < 10
     end
     
+    #Calculate strike bonus
+    def calc_strike_bonus(index)
+        #Next frame is a strike and not last frame, then
+        #the frame after that's first toss is added as a bonus
+        if strike?(@scores[index]) && not_last_frame?(index + 1)
+            20 + @scores[index + 1].first
+        else
+            10 + @scores[index].inject(:+)
+        end
+    end
     #Calculate spare bonus
     def calc_spare_bonus(index)
         10 + @scores[index].first
