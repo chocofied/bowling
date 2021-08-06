@@ -7,11 +7,18 @@ class Bowling
         @scores = []
         #temp storage array
         @temp = []
+        #Array to store the score of each frame
+        @frame_score = []
     end
     
     #return total score
     def total_score
         @total_score
+    end
+    
+    #Return the score at the point of time of the indicated frame
+    def frame_score(frame)
+        @frame_score[frame-1]
     end
     
     #add score
@@ -36,6 +43,8 @@ class Bowling
             else
                 @total_score += score.inject(:+)
             end
+            #record the total score after each frame
+            @frame_score << @total_score
         end
     end
     

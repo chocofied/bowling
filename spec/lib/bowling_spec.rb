@@ -146,6 +146,53 @@ describe "Bowling score total" do
             end
         end
     end
+    
+    describe "Total for each frame" do
+        #combine creation of instances
+        before do
+            @game = Bowling.new
+        end
+        context "All throws knock down 1 pin each" do
+            it "First frame score is 2" do
+                add_many_scores(20,1)
+                #calculate total
+                @game.calc_score
+                expect(@game.frame_score(1)).to eq 2
+            end
+        end
+        context "Got a spare" do
+            it "Spare bonus is added" do
+                #first frame is 3, then 7 points
+                @game.add_score(3)
+                @game.add_score(7)
+                #Next frame's first toss is 4 points
+                @game.add_score(4)
+                #17 gutter balls
+                add_many_scores(17,0)
+                #calculate total
+                @game.calc_score
+                #Expected score
+                #3 + 7 + (4) = 14
+                expect(@game.frame_score(1)).to eq 14
+            end
+        end
+        context "Got a strike" do
+            it "Strike bonus is added" do
+                #first frame is a strike
+                @game.add_score(10)
+                #Next frame's first toss is 5, then 4 points
+                @game.add_score(5)
+                @game.add_score(4)
+                #16 gutter balls
+                add_many_scores(16,0)
+                #calculate total
+                @game.calc_score
+                #Expected score
+                #10 + (5) + (4) = 19
+                expect(@game.frame_score(1)).to eq 19
+            end
+        end
+    end
 end
 private
 #Run multiple times at once with same score
