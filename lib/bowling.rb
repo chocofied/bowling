@@ -18,7 +18,7 @@ class Bowling
     def add_score(pins)
         @temp << pins
         #add total frame score when second toss is done
-        if @temp.size == 2
+        if @temp.size == 2 || strike?(@temp)
             @scores << @temp
             @temp = []
         end
@@ -27,8 +27,17 @@ class Bowling
     #calculate score
     def calc_score
         @scores.each.with_index(1) do |score, index|
-            #If a spare that's not the last spare, then add bonus
-            if spare?(score) && not_last_frame?(index)
+            #If a strike that's not the last frame, then add bonus
+            if strike?(score) && not_last_frame?(index)
+                #Next frame is a strike and not last frame, then
+                #the frame after that's first toss is added as a bonus
+                if strike?(@scores[index]) && not_last_frame?(index + 1)
+                    @total_score += 20 + @scores[index + 1].first
+                else
+                    @total_score += 10 + @scores[index].inject(:+)
+                end
+            #If a spare that's not the last frame, then add bonus
+            elsif spare?(score) && not_last_frame?(index)
                 @total_score += calc_spare_bonus(index)
             else
                 @total_score += score.inject(:+)
@@ -37,6 +46,11 @@ class Bowling
     end
     
     private
+    #Check if strike
+    def strike?(score)
+        score.first == 10
+    end
+    
     #Check if spare
     def spare?(score)
         score.inject(:+) == 10
