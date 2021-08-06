@@ -1,4 +1,4 @@
-require_relative "../../lib/bowling.rb"
+require "bowling"
 
 describe "Bowling score total" do
     describe "Overall total" do
@@ -7,7 +7,7 @@ describe "Bowling score total" do
             @game = Bowling.new
         end
         context "All tosses were gutter balls" do
-            it "Score should be 0" do
+            it "Score is 0" do
                 add_many_scores(20,0)
                 @game.calc_score
                 expect(@game.total_score).to eq 0
@@ -15,14 +15,14 @@ describe "Bowling score total" do
         end
         
         context "All tosses knocked over 1 pin" do
-            it "Score should be 20" do
+            it "Score is 20" do
                 add_many_scores(20,1)
                 @game.calc_score
                 expect(@game.total_score).to eq 20
             end
         end
         context "Got a spare" do
-            it "Spare bonus should be added" do
+            it "Spare bonus is added" do
                 #First frame is 3, then 7 points - a spare
                 @game.add_score(3)
                 @game.add_score(7)
@@ -38,7 +38,7 @@ describe "Bowling score total" do
             end
         end
         context "Frame is different, but two adjacent throws would make a spare" do
-            it "Spare bonus should not be added" do
+            it "Spare bonus is not added" do
                 #First frame is 3, then 5 points
                 @game.add_score(3)
                 @game.add_score(5)
@@ -55,7 +55,7 @@ describe "Bowling score total" do
             end
         end
         context "Getting a spare in the last frame" do
-            it "Spare bonus should not be added" do
+            it "Spare bonus is not added" do
                 #First frame is 3, then 7 points - a spare
                 @game.add_score(3)
                 @game.add_score(7)

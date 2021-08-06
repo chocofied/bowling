@@ -28,12 +28,27 @@ class Bowling
     def calc_score
         @scores.each.with_index(1) do |score, index|
             #If a spare that's not the last spare, then add bonus
-            if score.inject(:+) == 10 && index < 10
-                @total_score += 10 + @scores[index].first
+            if spare?(score) && not_last_frame?(index)
+                @total_score += calc_spare_bonus(index)
             else
                 @total_score += score.inject(:+)
             end
         end
     end
     
+    private
+    #Check if spare
+    def spare?(score)
+        score.inject(:+) == 10
+    end
+    
+    #Check if not last frame
+    def not_last_frame?(index)
+        index < 10
+    end
+    
+    #Calculate spare bonus
+    def calc_spare_bonus(index)
+        10 + @scores[index].first
+    end
 end
