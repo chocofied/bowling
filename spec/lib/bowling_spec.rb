@@ -148,6 +148,10 @@ describe "Bowling score total" do
     end
     
     describe "Total for each frame" do
+        #combine creation of instances
+        before do
+            @game = Bowling.new
+        end
         context "All throws knock down 1 pin each" do
             it "First frame score is 2" do
                 add_many_scores(20,1)
